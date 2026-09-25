@@ -10,6 +10,17 @@ const nodeBuiltins = require("module").builtinModules;
 const nextConfig: NextConfig = {
   // Silence the Turbopack+webpack mixed-config warning in Next.js 16.
   turbopack: {},
+
+  // Force Next.js NFT (Node File Trace) to include the Prisma Query Engine
+  // binary in serverless deployment bundles. The generated Prisma client loads
+  // the native .so/.dll via runtime fs.readFileSync(path.join(...)), which is
+  // not statically analyzable by NFT. Without this, the binary is excluded from
+  // Vercel serverless functions, causing:
+  //   "Prisma Client could not locate the Query Engine for runtime ..."
+  outputFileTracingIncludes: {
+    "/api/*": ["generated/prisma"],
+  },
+
   webpack: (config, { isServer }) => {
     if (isServer) {
       const nodePrefixed = nodeBuiltins.map((m: string) => `node:${m}`);
