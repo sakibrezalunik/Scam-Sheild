@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { existsSync } from "node:fs";
+import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 export async function GET() {
@@ -17,8 +17,8 @@ export async function GET() {
   for (const p of paths) {
     info[p] = {
       exists: existsSync(p),
-      isFile: existsSync(p) ? require("node:fs").statSync(p).isFile() : false,
-      size: existsSync(p) ? require("node:fs").statSync(p).size : 0,
+      isFile: existsSync(p) ? statSync(p).isFile() : false,
+      size: existsSync(p) ? statSync(p).size : 0,
     };
   }
   
