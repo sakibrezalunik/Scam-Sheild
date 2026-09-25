@@ -1,5 +1,5 @@
 {
-  "buildCommand": "next build",
+  "buildCommand": "prisma generate && next build && node scripts/postbuild-copy-engine.cjs",
   "devCommand": "next dev --webpack",
   "installCommand": "npm install",
   "framework": "nextjs",
