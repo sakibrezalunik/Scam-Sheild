@@ -1,0 +1,24 @@
+{
+  "buildCommand": "next build",
+  "devCommand": "next dev --webpack",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "functions": {
+    "app/api/scans/**/*": {
+      "maxDuration": 30,
+      "memory": 512
+    },
+    "app/api/auth/**/*": {
+      "maxDuration": 10,
+      "memory": 256
+    },
+    "app/api/admin/**/*": {
+      "maxDuration": 10,
+      "memory": 256
+    }
+  }
+}

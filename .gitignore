@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+**/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -12,6 +13,8 @@
 
 # testing
 /coverage
+**/coverage
+/test-results
 
 # next.js
 /.next/
@@ -19,10 +22,24 @@
 
 # production
 /build
+**/dist/
+**/target/
 
 # misc
 .DS_Store
 *.pem
+*.png
+!public/**/*.png
+!extension/assets/*.png
+!desktop/src-tauri/icons/*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.exe
+*.msi
+*.dll
+*.node
 
 # debug
 npm-debug.log*
@@ -30,12 +47,25 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files — keep .env.example as the documented template
 .env*
+!.env.example
 
 # vercel
 .vercel
 
+# docs (local-only, not for GitHub)
+/docs/
+
+# generated Prisma client
+generated/prisma/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local scratch / one-off files
+MEMORY.md
+*.ps1
+*.fixed
+Image/

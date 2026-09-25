@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./threeui.css";
 
 :root {
   --background: #ffffff;
@@ -23,4 +24,80 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ── ScamShield Cinematic Landing — Color System ─────────────────────────── */
+[data-scsh] {
+  --ss-bg: #000000;
+  --ss-text: #ffffff;
+  --ss-muted: #8e8e8e;
+  --ss-nav-text: #2e2e2e;
+  --ss-pill-dark: #28282a;
+  --ss-sign-in-text: #c8c8c8;
+  --ss-nav-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+  --ss-trust-bg: #28282a;
+  --ss-trust-border: rgba(255, 255, 255, 0.4);
+  --ss-trust-text: #c4c2c3;
+}
+
+/* ── Landing entry animation (respects reduced motion) ────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .ss-header-enter {
+    animation: ss-header-slide 0.6s ease both;
+  }
+  .ss-hero-enter {
+    animation: ss-hero-fade 0.8s 0.15s ease both;
+  }
+  .ss-headline-line {
+    animation: ss-line-reveal 0.5s ease both;
+  }
+  .ss-headline-line:nth-child(1) { animation-delay: 0.3s; }
+  .ss-headline-line:nth-child(2) { animation-delay: 0.45s; }
+  .ss-cta-enter {
+    animation: ss-cta-reveal 0.5s 0.65s ease both;
+  }
+  .ss-trust-enter {
+    animation: ss-trust-fade 0.5s 0.1s ease both;
+  }
+  .ss-mode-enter {
+    animation: ss-mode-fade 0.4s ease both;
+  }
+  .ss-mode-enter:nth-child(1) { animation-delay: 0.5s; }
+  .ss-mode-enter:nth-child(2) { animation-delay: 0.6s; }
+  .ss-mode-enter:nth-child(3) { animation-delay: 0.7s; }
+}
+
+@keyframes ss-header-slide {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);       opacity: 1; }
+}
+@keyframes ss-hero-fade {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes ss-line-reveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+@keyframes ss-cta-reveal {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)  scale(1);     }
+}
+@keyframes ss-trust-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes ss-mode-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+/* ── Focus-visible ring for keyboard users ─────────────────────────────────── */
+.ss-focus-ring {
+  outline: 2px solid rgba(255,255,255,0.6);
+  outline-offset: 2px;
+  border-radius: 9999px;
+}
+.ss-focus-ring:focus-visible {
+  outline-color: #ffffff;
 }

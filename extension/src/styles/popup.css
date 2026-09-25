@@ -1,0 +1,392 @@
+/**
+ * ScamShield Extension — Popup Styles
+ *
+ * Self-contained, no external dependencies. Scoped to .ss- prefix.
+ */
+
+/* ─── Reset & Base ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #1f2937;
+  background: #ffffff;
+}
+
+/* ─── Popup Container ──────────────────────────────────────────────── */
+.ss-popup {
+  width: 360px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ─── Header ───────────────────────────────────────────────────────── */
+.ss-header {
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ss-logo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.ss-logo-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.ss-logo-text {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.01em;
+}
+
+.ss-tagline {
+  font-size: 11px;
+  color: #6b7280;
+  margin-left: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+/* ─── Body ─────────────────────────────────────────────────────────── */
+.ss-body {
+  padding: 14px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ss-body--center {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 24px 16px;
+}
+
+/* ─── URL Section ──────────────────────────────────────────────────── */
+.ss-url-section {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ss-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ss-url {
+  font-size: 12px;
+  color: #374151;
+  word-break: break-all;
+  font-family: 'SF Mono', SFMono-Regular, ui-monospace, monospace;
+  background: #f9fafb;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+/* ─── Risk Score Card ──────────────────────────────────────────────── */
+.ss-risk-card {
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ss-risk-score-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ss-risk-score {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.ss-risk-score-max {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.ss-risk-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-left: auto;
+}
+
+.ss-risk-summary {
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+/* ─── Signals Section ──────────────────────────────────────────────── */
+.ss-signals-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ss-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ss-signals-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ss-signal-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+}
+
+.ss-signal-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.ss-signal-severity-critical .ss-signal-dot { background: #dc2626; }
+.ss-signal-severity-high .ss-signal-dot { background: #ea580c; }
+.ss-signal-severity-medium .ss-signal-dot { background: #d97706; }
+.ss-signal-severity-low .ss-signal-dot { background: #16a34a; }
+.ss-signal-severity-positive .ss-signal-dot { background: #2563eb; }
+
+.ss-signal-title {
+  font-weight: 600;
+  color: #111827;
+}
+
+.ss-signal-desc {
+  color: #6b7280;
+  display: block;
+  font-size: 11px;
+  margin-top: 1px;
+}
+
+.ss-more-signals {
+  font-size: 11px;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* ─── Recommendation ───────────────────────────────────────────────── */
+.ss-recommendation {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+}
+
+.ss-recommendation-icon {
+  width: 16px;
+  height: 16px;
+  color: #2563eb;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ss-recommendation-text {
+  font-size: 12px;
+  color: #1e40af;
+  line-height: 1.5;
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────────── */
+.ss-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ss-btn {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.ss-btn:active { transform: scale(0.98); }
+
+.ss-btn-primary {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.ss-btn-primary:hover { background: #059669; }
+
+.ss-btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+}
+
+.ss-btn-secondary:hover { background: #e5e7eb; }
+
+/* ─── Spinner ──────────────────────────────────────────────────────── */
+.ss-spinner {
+  width: 48px;
+  height: 48px;
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.ss-spinner-ring {
+  width: 100%;
+  height: 100%;
+  border: 3px solid #e5e7eb;
+  border-top-color: #10b981;
+  border-radius: 50%;
+  animation: ss-spin 0.8s linear infinite;
+}
+
+.ss-spinner-ring--2 {
+  border-top-color: #34d399;
+  animation-duration: 1.2s;
+  animation-direction: reverse;
+}
+
+@keyframes ss-spin {
+  to { transform: rotate(360deg); }
+}
+
+.ss-loading-text {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+/* ─── Error / Icon Views ───────────────────────────────────────────── */
+.ss-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.ss-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.ss-icon--warning {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.ss-icon--error {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.ss-unsupported-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.ss-unsupported-desc {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+  max-width: 260px;
+}
+
+.ss-error-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.ss-error-message {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin-bottom: 14px;
+  max-width: 260px;
+}
+
+/* ─── Footer ───────────────────────────────────────────────────────── */
+.ss-footer {
+  padding: 8px 16px;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.ss-footer span {
+  font-size: 10px;
+  color: #9ca3af;
+}

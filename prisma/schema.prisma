@@ -1,0 +1,201 @@
+// Prisma Schema for ScamShield (Prisma v7 compatible)
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Users table
+model User {
+  id                String         @id @default(uuid())
+  email             String         @unique
+  passwordHash      String?
+  name              String?
+  role              String         @default("user") // "user" | "admin"
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  subscriptionTier  String         @default("free")
+  monthlyScansUsed  Int            @default(0)
+  scanLimit         Int            @default(10)
+  lastScanReset     DateTime       @default(now())
+
+  scans             Scan[]
+  sessions          Session[]
+  oauthAccounts     OAuthAccount[]
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+// Unified scans table
+model Scan {
+  id            String           @id @default(uuid())
+  userId        String?
+  scanType      String           // 'url', 'message', 'job'
+  inputHash     String?          // SHA-256 hash of input (privacy)
+  inputPreview  String?          // Truncated preview
+  riskScore     Int?
+  riskLevel     String?          // 'minimal', 'low', 'moderate', 'high', 'critical'
+  category      String?          // 'phishing', 'job_scam', 'romance_scam', etc.
+  summary       String?
+  createdAt     DateTime         @default(now())
+
+  user          User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  indicators    RiskIndicator[]
+  urlAnalysis   UrlAnalysis?
+  msgAnalysis   MessageAnalysis?
+  jobAnalysis   JobAnalysis?
+  aiAnalysis    AiAnalysis?
+
+  @@index([userId])
+  @@index([createdAt(sort: Desc)])
+  @@index([scanType])
+  @@map("scans")
+}
+
+// Risk indicators
+model RiskIndicator {
+  id          String   @id @default(uuid())
+  scanId      String
+  severity    String   // 'critical', 'high', 'medium', 'low', 'positive'
+  category    String?  // 'domain', 'content', 'technical', 'social_engineering'
+  title       String
+  description String?
+  evidence    String?
+  createdAt   DateTime @default(now())
+
+  scan        Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+
+  @@index([scanId])
+  @@map("risk_indicators")
+}
+
+// URL analysis details
+model UrlAnalysis {
+  id               String   @id @default(uuid())
+  scanId           String   @unique
+  url              String
+  domain           String?
+  isHttps          Boolean?
+  hasValidSsl      Boolean?
+  sslIssuer        String?
+  domainAgeDays    Int?
+  registrar        String?
+  ipAddress        String?
+  country          String?
+  httpStatus       Int?
+  redirectCount    Int?
+  redirectChain    Json?
+  securityHeaders  Json?
+  hasLoginForm     Boolean?
+  hasPaymentForm   Boolean?
+  dnsRecords       Json?
+  createdAt        DateTime @default(now())
+
+  scan             Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+
+  @@map("url_analyses")
+}
+
+// Message analysis details
+model MessageAnalysis {
+  id             String   @id @default(uuid())
+  scanId         String   @unique
+  messageType    String?  // 'sms', 'email', 'social', 'messenger'
+  detectedLinks  Json?
+  detectedPhones Json?
+  detectedEmails Json?
+  detectedUrls   Json?
+  language       String?
+  createdAt      DateTime @default(now())
+
+  scan           Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+
+  @@map("message_analyses")
+}
+
+// Job analysis details
+model JobAnalysis {
+  id                String   @id @default(uuid())
+  scanId            String   @unique
+  companyName       String?
+  jobTitle          String?
+  recruiterName     String?
+  recruiterEmail    String?
+  recruiterPhone    String?
+  salaryRange       String?
+  location          String?
+  remoteStatus      String?  // "remote", "onsite", "hybrid"
+  employmentType    String?
+  jobType           String?
+  contactMethod     String?
+  applicationMethod String?
+  extractedUrls     Json?
+  extractedEmails   Json?
+  extractedPhones   Json?
+  redFlags          Json?
+  positiveSignals   Json?
+  category          String?
+  urlAnalysisResults Json?
+  createdAt         DateTime @default(now())
+
+  scan             Scan     @relation(fields: [scanId], references: [id], onDelete: Cascade)
+
+  @@index([scanId])
+  @@map("job_analyses")
+}
+
+// AI analysis results
+model AiAnalysis {
+  id                   String   @id @default(uuid())
+  scanId               String   @unique
+  provider             String   @default("openai")
+  model                String   @default("gpt-4o-mini")
+  assessment           String
+  confidence           Int      @default(0)
+  reasoning            String?
+  additionalIndicators Json?
+  recommendations      Json?
+  status               String   @default("success")
+  createdAt            DateTime @default(now())
+
+  scan Scan @relation(fields: [scanId], references: [id], onDelete: Cascade)
+
+  @@index([scanId])
+  @@map("ai_analyses")
+}
+
+// Sessions for authentication
+model Session {
+  id         String   @id @default(uuid())
+  userId     String
+  tokenHash  String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tokenHash])
+  @@index([userId])
+  @@map("sessions")
+}
+
+// OAuth accounts
+model OAuthAccount {
+  id         String   @id @default(uuid())
+  userId     String
+  provider   String   // 'google', etc.
+  providerId String
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerId])
+  @@map("oauth_accounts")
+}
